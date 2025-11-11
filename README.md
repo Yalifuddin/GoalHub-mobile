@@ -1,6 +1,6 @@
-# football_shopA new Flutter project.
+# football_shop
 
-## Getting Started
+A new Flutter project.## Getting Started
 
 This project is a starting point for a Flutter application.
 
@@ -86,7 +86,7 @@ Di dalam metode `build`, `BuildContext` diterima sebagai parameter: `Widget buil
 
 *   **Hot Reload**:
     *   **Apa yang dilakukan**: Menyuntikkan file kode sumber yang telah diperbarui ke dalam Dart Virtual Machine (VM) yang sedang berjalan. Setelah itu, Flutter akan membangun ulang *widget tree*.
-    *   **Keadaan (State)**: **Tidak hilang**. State dari `StatefulWidget` tetap dipertahankan. 
+    *   **Keadaan (State)**: **Tidak hilang**. State dari `StatefulWidget` tetap dipertahankan.
     *   **Kapan digunakan**: Ideal untuk perubahan UI cepat, seperti mengubah warna, tata letak, atau teks. Ini memungkinkan developer melihat perubahan secara instan tanpa harus memulai ulang dari awal.
 
 *   **Hot Restart**:
@@ -95,3 +95,43 @@ Di dalam metode `build`, `BuildContext` diterima sebagai parameter: `Widget buil
     *   **Kapan digunakan**: Digunakan saat perubahan kode tidak dapat diterapkan dengan *hot reload*, seperti mengubah *global state*, menambahkan aset baru, atau mengubah logika di `initState()`. Proses ini lebih cepat daripada "full restart" (menghentikan dan menjalankan ulang aplikasi sepenuhnya) tetapi lebih lambat dari *hot reload*.
 
 Secara singkat, *hot reload* untuk perubahan visual cepat dengan state terjaga, sedangkan *hot restart* untuk perubahan struktural yang lebih dalam yang memerlukan reset state.
+
+---
+
+## Tugas 8: Flutter Lanjutan
+
+### 1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+Perbedaan utama antara keduanya terletak pada cara mengelola tumpukan navigasi (*navigation stack*).
+*   **`Navigator.push()`**: Mendorong (menambahkan) halaman baru **di atas** tumpukan. Halaman sebelumnya tetap ada di dalam tumpukan, dan pengguna bisa kembali ke sana dengan menekan tombol "kembali" (baik fisik maupun pada `AppBar`). Ini seperti membuka tab baru di browser.
+*   **`Navigator.pushReplacement()`**: Mendorong halaman baru dan **membuang** halaman saat ini dari tumpukan. Ini berarti pengguna tidak bisa kembali ke halaman sebelumnya karena halaman tersebut sudah digantikan.
+
+**Kapan Digunakan di Aplikasi Football Shop:**
+*   **Gunakan `Navigator.push()`:**
+    *   Saat berpindah dari **halaman utama (`MyHomePage`) ke halaman detail produk**. Pengguna tentu ingin bisa kembali ke daftar produk setelah melihat detail satu produk.
+    *   Dalam aplikasi ini, saat berpindah dari halaman utama ke halaman formulir (`ProductFormPage`) dengan menekan tombol "Create Product", `push()` lebih cocok agar pengguna bisa kembali ke halaman utama tanpa harus membuka *drawer*.
+*   **Gunakan `Navigator.pushReplacement()`:**
+    *   **Setelah proses login atau registrasi berhasil**. Pengguna tidak seharusnya bisa kembali ke halaman login setelah berhasil masuk.
+    *   Saat berpindah antar halaman utama melalui **drawer**, seperti yang sudah diimplementasikan di `left_drawer.dart`. Penggunaan `pushReplacement()` di sini mencegah tumpukan halaman yang tidak perlu. Bayangkan jika pengguna menekan "Home" -> "Add Product" -> "Home" berulang kali menggunakan `push()`; ini akan menciptakan tumpukan halaman yang sangat dalam (`Home -> Add Product -> Home -> Add Product ...`) dan membuat tombol kembali menjadi tidak intuitif.
+
+### 2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+*Hierarki* widget `Scaffold`, `AppBar`, dan `Drawer` adalah fondasi untuk menciptakan tata letak yang konsisten dan familiar bagi pengguna di seluruh aplikasi.
+*   **`Scaffold`**: Berperan sebagai kerangka dasar untuk setiap halaman. Dengan menggunakan `Scaffold` di semua halaman utama (seperti `MyHomePage` dan `ProductFormPage`), kita memastikan bahwa setiap halaman memiliki struktur yang sama: ada tempat untuk `AppBar`, `body` (konten utama), dan `Drawer`.
+*   **`AppBar`**: Ditempatkan di dalam `Scaffold` untuk menyediakan bilah atas yang konsisten. Di aplikasi ini, `AppBar` digunakan untuk menampilkan judul halaman (`title`). Ini membantu pengguna untuk selalu tahu di halaman mana mereka berada.
+*   **`Drawer`**: Ditempatkan juga di dalam `Scaffold`. Karena `Drawer` (dalam kasus ini, `LeftDrawer`) adalah widget terpisah yang bisa digunakan kembali, kita bisa menambahkannya ke `Scaffold` di setiap halaman yang membutuhkannya. Ini memastikan bahwa menu navigasi utama selalu dapat diakses dengan cara yang sama (menggeser dari kiri atau menekan ikon menu), tidak peduli di halaman mana pengguna berada.
+Dengan menggabungkan ketiganya, kita menciptakan "template" halaman yang konsisten: judul selalu di atas, navigasi utama selalu di kiri, dan konten spesifik halaman selalu mengisi bagian tengah (`body`).
+
+### 3. Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+Menggunakan widget tata letak seperti `Padding`, `SingleChildScrollView`, dan `ListView` sangat penting dalam mendesain form agar rapi, mudah digunakan, dan fungsional.
+*   **`Padding`**:
+    *   **Kelebihan**: Memberikan ruang bernapas di sekitar elemen UI. Tanpa `Padding`, elemen form akan menempel di tepi layar dan satu sama lain, membuatnya terlihat berantakan dan sulit dibaca.
+    *   **Contoh Penggunaan**: Di file `productlist_form.dart`, setiap `TextFormField` dibungkus dengan widget `Padding(padding: const EdgeInsets.all(8.0), ...)` untuk memberikan jarak dari elemen di atas dan di bawahnya, serta dari tepi layar. Ini membuat form terlihat jauh lebih bersih dan terstruktur.
+*   **`SingleChildScrollView`**:
+    *   **Kelebihan**: Membuat konten di dalamnya dapat digulir (*scrollable*) jika ukurannya melebihi layar. Ini krusial untuk form yang panjang atau saat keyboard virtual muncul dan menutupi sebagian layar. Tanpa ini, pengguna mungkin tidak bisa mengakses semua kolom input, yang akan menyebabkan "pixel overflow error".
+    *   **Contoh Penggunaan**: Di `productlist_form.dart`, seluruh `Column` yang berisi elemen-elemen form dibungkus dengan `SingleChildScrollView`. Ini memastikan bahwa meskipun form tersebut memiliki banyak input, pengguna tetap bisa menggulir ke bawah untuk mengisi semua bagian, bahkan pada layar ponsel yang kecil.
+*   **`ListView`**:
+    *   **Kelebihan**: Mirip dengan `SingleChildScrollView`, tetapi lebih dioptimalkan untuk menampilkan daftar elemen yang panjang dan dinamis, karena ia hanya merender item yang terlihat di layar (*lazy loading*).
+    *   **Contoh Penggunaan**: Di file `left_drawer.dart`, semua opsi menu (`ListTile`) ditempatkan di dalam `ListView`. Ini membuat daftar opsi di dalam *drawer* dapat digulir jika suatu saat nanti jumlah menunya menjadi sangat banyak hingga melebihi tinggi layar.
+
+### 4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+Untuk menciptakan identitas visual yang konsisten, kita memanfaatkan sistem tema global Flutter yang disediakan oleh `MaterialApp`.  Di file `main.dart`, kita mendefinisikan `ThemeData` yang akan diwariskan ke seluruh widget di dalam aplikasi.
+

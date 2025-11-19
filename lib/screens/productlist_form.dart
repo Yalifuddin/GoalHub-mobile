@@ -240,7 +240,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         // If you using chrome,  use URL http://localhost:8000
 
                         final response = await request.postJson(
-                          "http://localhost:8000/create-flutter/",
+                          "http://localhost:8000/create-product-flutter/",
                           jsonEncode({
                             "name": _name,
                             "description": _description,

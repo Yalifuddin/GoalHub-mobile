@@ -71,10 +71,10 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.add_reaction_rounded),
             title: const Text('Product List'),
             onTap: () {
-              // Route to Product list page
+              // Route to Product list page with default filter 'all'
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ProductEntryListPage()),
+                MaterialPageRoute(builder: (context) => const ProductEntryListPage(filter: 'all')),
               );
             },
           ),

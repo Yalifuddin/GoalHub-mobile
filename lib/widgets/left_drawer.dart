@@ -18,20 +18,26 @@ class LeftDrawer extends StatelessWidget {
             ),
             child: Column(
               children: [
+                Icon(
+                  Icons.sports_soccer,
+                  size: 50,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 10),
                 Text(
                   'GoalHub',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(10)),
-                Text("Toko Sepakbola Terbaik se Jagad Raya",
+                const SizedBox(height: 8),
+                Text("Your Ultimate Sports Equipment Store",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 12,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   ),
@@ -54,8 +60,32 @@ class LeftDrawer extends StatelessWidget {
           ),
 
           ListTile(
+            leading: const Icon(Icons.newspaper),
+            title: const Text('Product List'),
+            onTap: () {
+              // Route to Product list page with default filter 'all'
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductEntryListPage(filter: 'all')),
+              );
+            },
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.inventory_2),
+            title: const Text('My Products'),
+            onTap: () {
+              // Route to Product list page with default filter 'all'
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductEntryListPage(filter: 'my')),
+              );
+            },
+          ),
+
+          ListTile(
             leading: const Icon(Icons.post_add),
-            title: const Text('Add Product'),
+            title: const Text('Create Product'),
             // Bagian redirection ke ProductFormPage
             onTap: () {
               // routing ke ProductFormPage
@@ -64,18 +94,6 @@ class LeftDrawer extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => ProductFormPage(),
                   ));
-            },
-          ),
-
-          ListTile(
-            leading: const Icon(Icons.add_reaction_rounded),
-            title: const Text('Product List'),
-            onTap: () {
-              // Route to Product list page with default filter 'all'
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProductEntryListPage(filter: 'all')),
-              );
             },
           ),
 

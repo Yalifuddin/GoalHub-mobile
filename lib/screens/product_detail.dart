@@ -99,6 +99,50 @@ class ProductDetailPage extends StatelessWidget {
 
                   const Divider(height: 32),
 
+                  // Price
+                  Row(
+                    children: [
+                      const Text(
+                        'Price: ',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Rp${product.price},00',
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Stock
+                  Row(
+                    children: [
+                      const Text(
+                        'Stock: ',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '${product.stok}',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  const Divider(height: 32),
+
                   // Full content
                   Text(
                     product.description,
